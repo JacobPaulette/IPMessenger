@@ -151,6 +151,10 @@ void System::change_IPs(Ticket & current_ticket) {
 
 
 void System::quit() {
+    for (IP4 i : IPs) {
+        if (i.to_string() != "127.0.0.1")
+            remove_IP(i);
+    }
     Ticket halt_t = Ticket(haltpass); 
     send(halt_t);
     halt = true;
