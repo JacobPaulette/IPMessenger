@@ -10,7 +10,7 @@
 class GUI {
     public:
         GUI();
-        GUI(std::queue<Ticket>& to_gui, std::queue<Ticket>& to_system);
+        GUI(std::queue<Ticket>* to_gui, std::queue<Ticket>* to_system);
         void set_recv_queue(std::queue<Ticket>* tqueue);
         void set_send_queue(std::queue<Ticket>* tqueue);
         void stop();
@@ -18,13 +18,16 @@ class GUI {
 
     private:
         std::string out_message;
-        std::queue<Ticket> to_gui;
-        std::queue<Ticket> to_system;
+        std::queue<Ticket> * to_gui;
+        std::queue<Ticket> * to_system;
         WINDOW * output_win;
         WINDOW * user_handle_win;
         WINDOW * input_win;
         bool running;
+        int height;
+        int width;
 
+        void update_screen();
         void print_message(Ticket & current_ticket);
         void print_to_window(WINDOW * win, std::string text);
         void handle_ticket();
