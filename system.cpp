@@ -9,6 +9,7 @@ using std::queue;
 
 
 System::System(int _port) {
+    add_member(IP4("127.0.0.1"), "localhost");
     haltpass = "babyface";
     boost::asio::io_service io;
     udp::socket _my_socket(io);
