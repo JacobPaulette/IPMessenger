@@ -1,5 +1,4 @@
 CXX = g++
-CXXFLAGS= -std=c++11 #-o main
+CXXFLAGS= -std=c++11 -I include
 LDLIBS = -lncurses -pthread -lboost_system
-
-main : main.cpp gui.cpp tickets.cpp IP4.cpp system.cpp 
+main :main.cpp source/gui.cpp source/tickets.cpp source/IP4.cpp source/system.cpp 
