@@ -134,7 +134,8 @@ void GUI::enter_handle() {
     for (int i=0; i<x; i++)
         waddch(input_win, ' ');
     wmove(input_win,0,0);
-    cat_output(out_message);
+    if (!only_spaces(out_message))
+        cat_output(out_message);
     out_message = "";
     wrefresh(input_win);
 }
@@ -152,11 +153,13 @@ void GUI::recv_char_input() {
     string out_char = "" + (char) ch;
     if (ch == ERR)
         return;
-    else if (ch == 127 && out_message.size() > 0)
-        backspace_handle();
-    else if (ch == 10)
-        enter_handle();
-    else {
+    else if (ch == 127) {
+        if (out_message.size() > 0)
+            backspace_handle();
+   } else if (ch == 10) {
+        if (out_message.size() > 0)
+            enter_handle();
+   } else {
         out_message += (char) ch;
         waddch(input_win, ch);
         wrefresh(input_win);
@@ -210,4 +213,12 @@ vector< vector<string> > tokenize(string & str) {
         token_list.push_back(token_pair);
     }
     return token_list;
+}
+
+bool only_spaces(string & str) {
+    for (char i : str) {
+        if (i != ' ')
+            return false;
+    }
+    return true;
 }

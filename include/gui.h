@@ -42,6 +42,8 @@ void gui(std::queue<Ticket>* to_gui, std::queue<Ticket>* to_system);
 
 bool isMember(char elem, std::string & delims);
 
+bool only_spaces(std::string & str);
+
 std::vector<std::string> split(std::string & str, std::string  & delims);
 
 #endif
