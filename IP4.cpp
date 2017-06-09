@@ -9,7 +9,7 @@ IP4::IP4() {
     IP4_address = {0,0,0,0};
 }
 
-IP4::IP4(string IP4_string) {
+IP4::IP4(string IP4_string, bool testIP/*=false*/) {
     vector<int> IP4_vector;
     string section = "";
     for (int i=0; i<IP4_string.size(); i++) {
@@ -23,8 +23,15 @@ IP4::IP4(string IP4_string) {
             section += IP4_string[i];
         }
     }
-    fin_constr(IP4_vector);
+    if (testIP) {
+        if (IP4_vector.size() != 4 || _out_of_range(IP4_vector))
+            valid = false;
+        else;
+            valid = true;
+    } else
+        fin_constr(IP4_vector);
 }
+
 
 
 IP4::IP4(int* IP4_array) {
@@ -41,6 +48,7 @@ IP4::IP4(vector<int> IP4_vector) {
     fin_constr(IP4_vector);
 }
 
+bool IP4::valid_IP() {return valid;}
 
 void IP4::fin_constr(vector<int> IP4_vector) {
     if (IP4_vector.size() != 4)

@@ -103,7 +103,12 @@ void GUI::print_to_window(WINDOW * win, string text) {
         wechochar(win, i);
 }
 
+void GUI::command(string & message) {
+    
+}
+
 void GUI::cat_output(string message) {
+    if (message[0] == ':');
     if (message == "quit") {
         to_system->push(Ticket(Ticket_Type::quit));
         running = false;
@@ -190,4 +195,19 @@ vector<string> split(string & str, string & delims) {
     return out;
 }
             
-            
+vector< vector<string> > tokenize(string & str) {
+    string delims = " ";
+    vector<string> uncat_tokens = split(str, delims);
+    vector<string> token_pair;
+    vector< vector<string> > token_list;
+    string current_tag = "UNKNOWN";
+    for (string i : uncat_tokens) {
+        if (i == "-ip") {
+            current_tag = "IP";
+            token_pair = {"FlAG", i};
+        } else 
+            token_pair = {current_tag, i};
+        token_list.push_back(token_pair);
+    }
+    return token_list;
+}

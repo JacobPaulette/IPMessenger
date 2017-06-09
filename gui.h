@@ -26,7 +26,8 @@ class GUI {
         bool running;
         int height;
         int width;
-
+        
+        void command(std::string & message);
         void update_screen();
         void print_message(Ticket & current_ticket);
         void print_to_window(WINDOW * win, std::string text);
