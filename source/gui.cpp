@@ -12,32 +12,8 @@ using std::string;
 using std::cout;
 using std::cin;
 using std::endl;
-/*
-GUI::GUI(std::queue<Ticket>& to_gui, std::queue<Ticket>& to_system) {
-    this->to_gui = to_gui;
-    this->to_system = to_system;
-    running = true;
-    cout << "ayy o" << endl;
-    initscr();
-    int y, x;
-    getmaxyx(stdscr, y, x);
-    noecho();
-    scrollok(stdscr, TRUE);
-    cbreak();
-    printw("hey yo");
-    return;
-    input_win = newwin(1, x,y-1,0);
-    output_win = newwin(y-1,x,0,0);
-    nodelay(output_win, true);
-    nodelay(input_win, true);
-    while (running) {
-        handle_ticket();
-        recv_char_input();
-    }
-    endwin();
-    to_system.push(Ticket(Ticket_Type::quit));
-}
-*/
+
+
 GUI::GUI(std::queue<Ticket>* to_gui, std::queue<Ticket>* to_system) {
     this->to_gui = to_gui;
     this->to_system = to_system;
@@ -134,7 +110,7 @@ void GUI::enter_handle() {
     for (int i=0; i<x; i++)
         waddch(input_win, ' ');
     wmove(input_win,0,0);
-    if (!only_spaces(out_message))
+    if (!empty_message(out_message))
         cat_output(out_message);
     out_message = "";
     wrefresh(input_win);
@@ -215,10 +191,11 @@ vector< vector<string> > tokenize(string & str) {
     return token_list;
 }
 
-bool only_spaces(string & str) {
+bool empty_message(string & str) {
     for (char i : str) {
-        if (i != ' ')
+        if (i != ' ' && i != '\t') 
             return false;
     }
     return true;
 }
+
