@@ -156,6 +156,8 @@ void System::quit() {
         if (i.to_string() != "127.0.0.1")
             remove_IP(i);
     }
+    if (IPs.size() == 0)
+        add_member(IP4("127.0.0.1"), "");
     Ticket halt_t = Ticket(haltpass); 
     send(halt_t);
     halt = true;

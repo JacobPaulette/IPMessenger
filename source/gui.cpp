@@ -29,12 +29,10 @@ GUI::GUI(std::queue<Ticket>* to_gui, std::queue<Ticket>* to_system) {
     nodelay(output_win, true);
     nodelay(input_win, true);
     while (running) {
-        //update_screen();
         handle_ticket();
         recv_char_input();
     }
     endwin();
-    //to_system->push(Ticket(Ticket_Type::quit));
 }
 
 
@@ -80,24 +78,37 @@ void GUI::print_to_window(WINDOW * win, string text) {
 }
 
 void GUI::command(string & message) {
-    
+    string delim = " ";
+    vector<string> c_list = split(message, delim);
+    string command = c_list[0];
+    c_list.erase(c_list.begin());
+    if (command == ":q" || command == ":quit") {
+        to_system->push(Ticket(Ticket_Type::quit));
+        running = false;
+    } else if (command == ":ip") {
+        vector<IP4> ipd;
+        string err_msg;
+        if (c_list.size() == 0) {
+            err_msg = "No arguments";
+            to_gui->push(Ticket(err_msg, "[SYSTEM]"));
+        }
+        for (string i : c_list) {
+            IP4 test = IP4(i, true);
+            if (test.valid_IP()) 
+                ipd.push_back(IP4(i));
+            else {
+                err_msg = i + " not valid IP";
+                to_gui->push(Ticket(err_msg, "[SYSTEM]"));
+            }
+        }
+        to_system->push(Ticket(ipd));
+    }
 }
 
 void GUI::cat_output(string message) {
-    if (message[0] == ':');
-    if (message == "quit") {
-        to_system->push(Ticket(Ticket_Type::quit));
-        running = false;
-    }
-    vector<IP4> delta;
-    string delims = " \"";
-    vector<string> message_list = split(message, delims);
-    for (int i=0; i<message_list.size(); i++) {
-        if (message_list[i] == "-ip") {
-            delta.push_back(IP4(message_list[i+1]));
-            to_system->push(Ticket(delta));
-            return;
-        }
+    if (message[0] == ':') {
+        command(message);
+        return;
     }
     to_system->push(Ticket(message));
 }
