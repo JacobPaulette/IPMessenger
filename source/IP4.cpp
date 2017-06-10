@@ -1,6 +1,5 @@
 #include "IP4.h"
 #include <stdexcept>
-#include <iostream>
 
 using std::vector;
 using std::string;
