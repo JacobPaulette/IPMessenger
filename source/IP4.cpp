@@ -1,5 +1,6 @@
 #include "IP4.h"
 #include <stdexcept>
+#include <iostream>
 
 using std::vector;
 using std::string;
@@ -13,6 +14,11 @@ IP4::IP4(string IP4_string, bool testIP/*=false*/) {
     vector<int> IP4_vector;
     string section = "";
     for (int i=0; i<IP4_string.size(); i++) {
+        if (!isdigit(IP4_string[i]) && IP4_string[i] != '.') {
+            IP4_address = {0,0,0,0};
+            valid = false;
+            return;
+        } 
         if (IP4_string[i] == '.') {
             IP4_vector.push_back(std::stoi(section));
             section = "";
@@ -26,10 +32,11 @@ IP4::IP4(string IP4_string, bool testIP/*=false*/) {
     if (testIP) {
         if (IP4_vector.size() != 4 || _out_of_range(IP4_vector))
             valid = false;
-        else;
+        else
             valid = true;
-    } else
+    } else {
         fin_constr(IP4_vector);
+    }
 }
 
 
