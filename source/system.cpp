@@ -9,6 +9,7 @@ using std::queue;
 
 
 System::System(int _port) {
+    add_member(IP4("127.0.0.1"), "localhost");
     haltpass = "babyface";
     boost::asio::io_service io;
     udp::socket _my_socket(io);
@@ -151,6 +152,12 @@ void System::change_IPs(Ticket & current_ticket) {
 
 
 void System::quit() {
+    for (IP4 i : IPs) {
+        if (i.to_string() != "127.0.0.1")
+            remove_IP(i);
+    }
+    if (IPs.size() == 0)
+        add_member(IP4("127.0.0.1"), "");
     Ticket halt_t = Ticket(haltpass); 
     send(halt_t);
     halt = true;
