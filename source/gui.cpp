@@ -21,8 +21,7 @@ GUI::GUI(std::queue<Ticket>* to_gui, std::queue<Ticket>* to_system) {
     initscr();
     cbreak();
     noecho();
-    height = 0;
-    width = 0;
+    height, width = 0;
     update_screen();
     scrollok(output_win, TRUE);
     scrollok(input_win, TRUE);
@@ -130,6 +129,7 @@ void GUI::enter_handle() {
 void GUI::backspace_handle() {
     int x = out_message.size();
     out_message.pop_back();
+    mvwprintw(input_win, 0, 0, out_message.c_str());
     wmove(input_win, 0, x-1);
     wdelch(input_win);
     wrefresh(input_win);
@@ -143,15 +143,19 @@ void GUI::recv_char_input() {
     else if (ch == 127) {
         if (out_message.size() > 0)
             backspace_handle();
-   } else if (ch == 10) {
+    } else if (ch == 10) {
         if (out_message.size() > 0)
             enter_handle();
-   } else {
+    } else if (ch == 27) {
+        cursor_mode();
+    } else {
         out_message += (char) ch;
         waddch(input_win, ch);
         wrefresh(input_win);
     }
 }
+
+void GUI::cursor_mode() {}
 
 void gui(queue<Ticket>* to_gui, queue<Ticket>* to_system) {
    GUI(to_gui, to_system);

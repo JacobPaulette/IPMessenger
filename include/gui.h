@@ -33,6 +33,7 @@ class GUI {
         void print_to_window(WINDOW * win, std::string text);
         void handle_ticket();
         void recv_char_input();
+        void cursor_mode();
         void backspace_handle();
         void enter_handle();
         void cat_output(std::string message);
